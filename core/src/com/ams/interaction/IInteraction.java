@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apm.interaction;
+package com.ams.interaction;
 
 import java.util.List;
 

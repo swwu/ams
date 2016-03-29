@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apm.combat.actions;
+package com.ams.combat.actions;
 
-import com.apm.combat.ICombatAction;
+import com.ams.combat.ICombatAction;
 
 /**
  *

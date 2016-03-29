@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apm.combat;
+package com.ams.combat;
 
-import com.apm.combat.actions.AttackAction;
-import com.apm.character.Character;
+import com.ams.combat.actions.AttackAction;
+import com.ams.character.Character;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -27,7 +27,7 @@ public class CombatInstance {
   List<Character> characters;
 
   // all actions that are currently "in-flight" inside this combat instance.
-  PriorityQueue<AttackAction> actionOrdering = new PriorityQueue<AttackAction>(characters.size(), CombatActionTimeOrder);
+  PriorityQueue<AttackAction> actionOrdering;
 
   // this comparator is used to sort CombatActions by their completion time
   public static Comparator<ICombatAction> CombatActionTimeOrder = new Comparator<ICombatAction>() {
@@ -45,5 +45,15 @@ public class CombatInstance {
     this.locationClutter = 0.1f;
 
     this.characters = characters;
+    this.actionOrdering = new PriorityQueue<AttackAction>(characters.size(), CombatActionTimeOrder);
+  }
+  
+  // runs the next CombatAction in the actionOrdering
+  public void nextAction() {
+    ICombatAction nextAction = actionOrdering.remove();
+    nextAction.perform();
+  }
+  
+  public void nextPlanningTick() {
   }
 }
