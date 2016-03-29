@@ -27,7 +27,7 @@ public class CombatInstance {
   List<Character> characters;
 
   // all actions that are currently "in-flight" inside this combat instance.
-  PriorityQueue<AttackAction> actionOrdering;
+  PriorityQueue<AttackAction> actionOrdering = new PriorityQueue<AttackAction>(characters.size(), CombatActionTimeOrder);
 
   // this comparator is used to sort CombatActions by their completion time
   public static Comparator<ICombatAction> CombatActionTimeOrder = new Comparator<ICombatAction>() {
