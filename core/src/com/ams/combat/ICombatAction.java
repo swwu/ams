@@ -5,6 +5,8 @@
  */
 package com.ams.combat;
 
+import com.ams.character.Entity;
+
 /**
  *
  * @author Steven
@@ -12,13 +14,13 @@ package com.ams.combat;
 public interface ICombatAction {
   
   // the "actor" is the character performing this action
-  public abstract Character getActor();
-  public abstract void setActor(Character actor);
+  public abstract Entity getActor();
+  public abstract void setActor(Entity actor);
   
   // this is the time this action is expected to complete at. This value can be
   // changed by external influence
   public abstract double getCompletesAt();
   public abstract void setCompletesAt(double completesAt);
   
-  public abstract void perform();
+  public abstract void perform(CombatInstance c);
 }

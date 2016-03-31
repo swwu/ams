@@ -5,24 +5,31 @@
  */
 package com.ams.character;
 
+import com.ams.combat.CombatInstance;
+import com.ams.combat.ICombatAction;
+import com.ams.combat.actions.AttackAction;
+
 /**
  *
  * @author Steven
  */
-public class Character {
-
-  private Body body;
-  private Soul soul;
+public class Entity {
+  private String name;
+  
+  Body body;
+  Soul soul;
 
   // how ready this character is to take an action. Taking actions consumes
   // readiness, and it slowly regenerates over time
-  private float readiness;
+  float readiness;
 
   // vitals
-  private float currentHealth;
-  private float maxHealth;
+  float currentHealth;
+  float maxHealth;
 
-  public Character() {
+  public Entity(String name) {   
+    this.name = name;
+
     this.body = new Body();
     this.soul = new Soul();
 
@@ -33,7 +40,27 @@ public class Character {
   public void calculateStats() {
   }
 
-  public void doAttack(Character target) {
+  public void doAttack(Entity target) {
+  }
+  
+  public ICombatAction nextAction(CombatInstance c) {
+    return new AttackAction(this, 
+            c.getEntities().stream().filter(p -> p != this).findFirst().get(),
+            c.getLocalTime() + 100);
+  }
+
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @param name the name to set
+   */
+  public void setName(String name) {
+    this.name = name;
   }
 
   /**

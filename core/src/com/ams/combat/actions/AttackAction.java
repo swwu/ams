@@ -5,6 +5,8 @@
  */
 package com.ams.combat.actions;
 
+import com.ams.character.Entity;
+import com.ams.combat.CombatInstance;
 import com.ams.combat.ICombatAction;
 
 /**
@@ -14,10 +16,13 @@ import com.ams.combat.ICombatAction;
 public class AttackAction implements ICombatAction {
 
   double completesAt; // when the action is scheduled to finish
-  Character actor;
+  Entity actor;
+  Entity target;
 
-  public AttackAction(Character actor, Character target) {
+  public AttackAction(Entity actor, Entity target, double completesAt) {
     this.actor = actor;
+    this.target = target;
+    this.completesAt = completesAt;
   }
   
   /**
@@ -37,18 +42,19 @@ public class AttackAction implements ICombatAction {
   }
 
   @Override
-  public Character getActor() {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  public Entity getActor() {
+    return this.actor;
   }
 
   @Override
-  public void setActor(Character actor) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  public void setActor(Entity actor) {
+    this.actor = actor;
   }
   
   @Override
-  public void perform() {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  public void perform(CombatInstance c) {
+    System.out.println(this.actor.getName() + ": target " + this.target.getName() + " has " + this.target.getCurrentHealth());
+    this.target.setCurrentHealth(this.target.getCurrentHealth() - 10);
   }
 
 }

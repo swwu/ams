@@ -1,6 +1,6 @@
 package com.ams.game;
 
-import com.ams.character.Character;
+import com.ams.character.Entity;
 import com.ams.combat.CombatInstance;
 import com.ams.ui.MainScreen;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -13,13 +13,21 @@ public class AMSGame extends Game {
   MainScreen mainScreen;
   
   SpriteBatch batch;
-  Character character;
+  Entity character;
   CombatInstance mainCombat;
 
   @Override
   public void create() {
     this.mainCombat = new CombatInstance(
-            Arrays.asList(new Character(), new Character()));
+            Arrays.asList(new Entity("person 1"), new Entity("person 2")));
+    this.mainCombat.nextAction();
+    this.mainCombat.nextAction();
+    this.mainCombat.nextAction();
+    this.mainCombat.nextAction();
+    this.mainCombat.nextAction();
+    this.mainCombat.nextAction();
+    this.mainCombat.nextAction();
+    this.mainCombat.nextAction();
 
     mainScreen = new MainScreen();
     setScreen(mainScreen);
