@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Character Progression</title>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+  </script>
+  <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  <style type="text/css">
+  @font-face {
+    font-family: 'Balthazar';
+    font-style: normal;
+    font-weight: 400;
+    src: url(http://fonts.gstatic.com/s/balthazar/v5/E9s_OrHc1N8XyvXr2y-jypBw1xU1rKptJj_0jans920.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+    }
+    
+    body { 
+      font-family: 'Calibri',sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    p {
+      text-align: justify;
+    }
+
+    em {
+      font-weight: bold;
+    }
+
+    h1,h2 {
+      font-family: 'Balthazar',serif;
+    }
+
+    h3 {
+      font-weight: bold;
+      font-size: larger;
+      background-color: rgb(207,226,243);
+      padding: 4px;
+    }
+
+    table,th,td {
+      border: 1px solid;
+      border-color: rgb(136,136,136);
+      border-collapse: collapse;
+      padding: 5px;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    .abilitytab {
+      width:90%; margin: 0 auto;
+    }
+
+    tr:nth-child(odd) {
+      background-color: rgb(243,243,243);
+    }
+
+    tr:nth-child(1) {
+      background-color: rgb(207,226,243);
+    }
+
+    td:nth-last-child(1) {
+      text-align: left;
+    }
+
+    .abilitytab  td:nth-last-child(2) {
+      text-align: left;
+    }
+
+    a:visited {
+      color:blue;
+    }
+
+    .action {
+      margin-left: 40px;
+      margin-right: 40px;
+      border: 1px solid black;
+      padding: 0px;
+      background-color: #DDDDEE;
+    }
+
+    .action p:nth-child(1) {
+      background: #BBCCEE;
+      margin: 0px;
+      padding: 10px;
+      font-weight: bold;
+    }
+
+    .action p:nth-child(1) .action-type {
+      float: right;
+      font-style: italic;
+    }
+
+    .action p {
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Character Progression</h1>
+  <p>
+    Here is a description of a character progression system that seems
+    consistent with what we have discussed so far.
+  </p>
+  <h2>Ability Scores</h2>
+  <p>
+    We're using the standard six ability scores.
+  </p>
+  <ul>
+    <li><em>Strength</em> affects carrying capacity, and most melee attack
+      damage.</li>
+    <li><em>Dexterity</em> affects reflex point (RP) recharge rate, and most
+      attack rolls.</li>
+    <li><em>Constitution</em> affects max hit points (HP).</li>
+    <li><em>Intelligence</em> affects the difficulty of unlocking
+      skills, and the precision of spells and spell-like effects.</li>
+    <li><em>Wisdom</em> affects max mana points (MP).</li>
+    <li><em>Charisma</em> affects the difficulty of learning feats, and the
+      damage and save DC of spells and spell-like effects.</li>
+  </ul>
+  <h2>Experience Points</h2>
+  <p>
+    <em>Experience points (XP)</em> are acquired for defeating enemies and
+    completing challenges.  Experience points can be invested in skills, or
+    can reside in a character's unused XP pool.  A
+    character's <em>total XP</em> is the total amount of XP acquired by that
+    character across all skills (and the unused XP pool).
+  </p>
+  <p>
+    Typically, the amount of XP gained from defeating an enemy is porportional
+    to the square root of that enemy's total XP.
+  </p>
+  <h2>Skills</h2>
+  <p>
+    Skills are arranged relative to each other in a tree.  The <em>rank</em> of
+    a skill represents how well trained a character is at that skill, and is a
+    function of the amount of XP invested into the skill.  The amount of XP
+    required to have $R$ ranks in a skill, for $R > 0$, is
+    $$k_{\text{skill}} \cdot (R^{(2)} - \max(R_{\mathrm{parent}} - 3, 0)^{(2)}),$$
+    where $R_{\mathrm{parent}}$ is the number of ranks of the parent skill,
+    $k$ is a fixed scaling constant, and $X^{(2)}$ denotes the rising factorial
+    $$X^{(2)} = X (X + 1).$$  When no XP has been invested in a skill, its rank
+    is simply $$R = R_{\mathrm{parent}} - 3;$$ this can result in a negative
+    rank.
+  </p>
+  <p>
+    In order to invest XP in a skill (a.k.a. training the skill), the skill
+    must be "unlocked."  This represents having the base
+    understanding of the skill necessary to practice it in daily life.  All
+    characters start with all <em>root skills</em> (skills with no parent
+    skill) unlocked, and also recieve a number of "free" unlocks at character
+    creation equal to 4 + Int modifier.  Unlocking a skill requires an action
+    that is defined below.
+  </p>
+  <div class="action">
+    <p>
+      Unlocking a Skill
+      <span class="action-type">Action</span>
+    </p>
+    <p>
+      <em>Prerequisites:</em> Parent skill unlocked, parent skill 1 rank.
+    </p>
+    <p>
+      <em>Action time:</em> 1 day.
+    </p>
+    <p>
+      <em>Description:</em> Using your general skill in an area, you focus on
+      acquiring a more specific skill.  After a day of training (which
+      produces no XP) with another
+      character who posesses at least 1 rank in the desired skill, make a
+      parent skill check.  The DC of this check is
+      $$\text{DC} = 10 + \max(U_{\text{siblings}}
+      - \text{Mod}_{\text{Int}}, 0),$$
+      where $U_{\text{siblings}}$ is the number of unlocked sibling skills and
+      $\text{Mod}_{\text{Int}}$ is your Int modifier.  If you succeed the
+      check, the skill is unlocked.  If you fail the check, you make no
+      progress, and the lesson is wasted.
+    </p>
+    <p>
+      <em>Special:</em> Your performance on this check is not affected by
+      either magical or non-magical effects that modify skill checks, unless
+      skill unlocking is specifically mentioned as part of the effect.
+    </p>
+  </div>
+  <h2>Skill Affinities</h2>
+  <p>
+    Each skill has <em>skill affinities</em>, which represent how that skill
+    is connected to other aspects of the character.
+    The XP-weighted average of a character's skill affinities is used, along
+    with their total XP, to compute HP, MP, RPRR, and saves.  The formula
+    for HP is
+    $$\text{max HP} = k_{\text{HP}} \cdot \left(1 + A_{\text{HP}}
+    + \frac{\text{Mod}_{\text{Con}}}{3} \right)
+    \cdot \sqrt{\text{XP} + Z_0},$$
+    where $A_{\text{HP}}$ is the weighted skill affinity for HP, and
+    $k_{\text{HP}}$ and $Z_0$ are constants.  Similarly, the formula for MP is
+    $$\text{max MP} = k_{\text{MP}} \cdot \left(1 + A_{\text{MP}}
+    + \frac{\text{Mod}_{\text{Wis}}}{3} \right)
+    \cdot \sqrt{\text{XP} + Z_0}.$$
+    Reflex point recharge rate (RPRR), since it is a rate and all characters
+    have the same max RP, works slightly differently:
+    $$\text{RPRR} = k_{\text{RPRR}} \cdot \left(1 + A_{\text{RPRR}}
+    + \frac{\text{Mod}_{\text{Dex}}}{3} \right).$$
+    Finally, the formula for saves is
+    $$\text{save}_{Y} = k_{\text{save}} \cdot
+    \left(1 + A_{\text{save}-Y} \right) \cdot \sqrt{\text{XP} + Z_0}
+    + \text{Mod}_Y.$$
+  </p>
+  <h2>Feats</h2>
+  <p>
+    Feats represent extraordinary and supernatural abilities that can be
+    performed by a character.  To learn a feat requires an action that is
+    defined below.
+  </p>
+  <div class="action">
+    <p>
+      Learning a Feat
+      <span class="action-type">Action</span>
+    </p>
+    <p>
+      <em>Prerequisites:</em> Must satisfy the requirements for the desired
+      feat.
+    </p>
+    <p>
+      <em>Action time:</em> 1 day, or instantaneous (see below).
+    </p>
+    <p>
+      <em>Description:</em> Through focused training, you try to learn a new
+      feat.  After a day of training (which produces no XP), make the skill
+      checks listed in the feat's "to learn" list.  On each of these checks,
+      you take a penalty equal to
+      $$\text{feat penalty} = 3 \cdot \left( N_{\text{feats}} - k_{\text{feat}}
+      \cdot \sqrt{\text{XP} + Z_0} - \text{Mod}_{\text{Cha}} \right)$$
+      if this quantity is greater than zero, where $N_{\text{feats}}$ is equal
+      to the number of feats you already know, and $k_{\text{feat}}$ is a
+      constant.  If you succeed on all the checks, you learn the feat.  If you
+      fail any of the checks, you make no progress, and the training is wasted.
+    </p>
+    <p>
+      <em>Special:</em> Once a week, when you invest XP in a skill, you may try
+      to learn a feat that has that skill as a prerequisite.
+    </p>
+  </div>
+  <p>
+    You may also forget a feat you have learned.
+  </p>
+  <div class="action">
+    <p>
+      Forgetting a Feat
+      <span class="action-type">Action</span>
+    </p>
+    <p>
+      <em>Prerequisites:</em> Must know the feat.
+    </p>
+    <p>
+      <em>Action time:</em> 1 day.
+    </p>
+    <p>
+      <em>Description:</em> After a day of focused meditation, you forget a
+      feat that you have previously learned.
+    </p>
+  </div>
+  <!-- <ul>
+    <li>Arcana (Int): Knowledge of arcane spells, magic, magical items, and magical creatures.</li>
+    <li>Theology (Int): Knowledge of divine spells, religious practices, religious philosophy, and supernatural beings.</li>
+    <li>Perception (Wis): Ability to notice things and react to observations.</li>
+    <li>Insight (Wis): Ability to sense the motives and emotions of people.</li>
+    <li>Diplomacy (Cha)</li>
+    <li>Intimidate (Cha)</li>
+    <li>Leadership (Cha)</li>
+  </ul> -->
+</body>
+</html>
