@@ -140,10 +140,14 @@
     a skill represents how well trained a character is at that skill, and is a
     function of the amount of XP invested into the skill.  The amount of XP
     required to have $R$ ranks in a skill, for $R > 0$, is
-    $$k_{\text{skill}} \cdot (R^{(2)} - \max(R_{\mathrm{parent}} - 3, 0)^{(2)}),$$
+    $$\text{XP} = k_{\text{skill}} \cdot (R^{(2)} - \max(R_{\mathrm{parent}} - 3, 0)^{(2)}),$$
     where $R_{\mathrm{parent}}$ is the number of ranks of the parent skill,
     $k$ is a fixed scaling constant, and $X^{(2)}$ denotes the rising factorial
-    $$X^{(2)} = X (X + 1).$$  When no XP has been invested in a skill, its rank
+    $$X^{(2)} = X (X + 1).$$  If we let $B$ denote the base rank
+    $$B = \max(R_{\mathrm{parent}} - 3, 0)$$, then
+    $$R = \sqrt{ \frac{\text{XP}}{k_{\text{skill}}}
+    + B (B + 1) + \frac{1}{4} } -  \frac{1}{2},$$
+    When no XP has been invested in a skill, its rank
     is simply $$R = R_{\mathrm{parent}} - 3;$$ this can result in a negative
     rank.
   </p>
@@ -193,18 +197,15 @@
     The XP-weighted average of a character's skill affinities is used, along
     with their total XP, to compute HP, MP, RPRR, and saves.  The formula
     for HP is
-    $$\text{max HP} = k_{\text{HP}} \cdot \left(1 + A_{\text{HP}}
-    + \frac{\text{Mod}_{\text{Con}}}{3} \right)
+    $$\text{max HP} = k_{\text{HP}} \cdot \text{Con} \cdot \left(1 + A_{\text{HP}} \right)
     \cdot \sqrt{\text{XP} + Z_0},$$
     where $A_{\text{HP}}$ is the weighted skill affinity for HP, and
     $k_{\text{HP}}$ and $Z_0$ are constants.  Similarly, the formula for MP is
-    $$\text{max MP} = k_{\text{MP}} \cdot \left(1 + A_{\text{MP}}
-    + \frac{\text{Mod}_{\text{Wis}}}{3} \right)
+    $$\text{max MP} = k_{\text{MP}} \cdot \text{Wis} \cdot \left(1 + A_{\text{MP}} \right)
     \cdot \sqrt{\text{XP} + Z_0}.$$
     Reflex point recharge rate (RPRR), since it is a rate and all characters
     have the same max RP, works slightly differently:
-    $$\text{RPRR} = k_{\text{RPRR}} \cdot \left(1 + A_{\text{RPRR}}
-    + \frac{\text{Mod}_{\text{Dex}}}{3} \right).$$
+    $$\text{RPRR} = k_{\text{RPRR}} \cdot \text{Dex} \cdot \left(1 + A_{\text{RPRR}} \right).$$
     Finally, the formula for saves is
     $$\text{save}_{Y} = k_{\text{save}} \cdot
     \left(1 + A_{\text{save}-Y} \right) \cdot \sqrt{\text{XP} + Z_0}
