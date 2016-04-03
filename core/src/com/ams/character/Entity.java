@@ -6,8 +6,11 @@
 package com.ams.character;
 
 import com.ams.combat.CombatInstance;
-import com.ams.combat.ICombatAction;
 import com.ams.combat.actions.AttackAction;
+import com.ams.combat.BaseCombatAction;
+import com.ams.combat.actions.WaitAction;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  *
@@ -18,6 +21,8 @@ public class Entity {
   
   Body body;
   Soul soul;
+  
+  boolean dead;
 
   // how ready this character is to take an action. Taking actions consumes
   // readiness, and it slowly regenerates over time
@@ -40,13 +45,21 @@ public class Entity {
   public void calculateStats() {
   }
 
-  public void doAttack(Entity target) {
-  }
-  
-  public ICombatAction nextAction(CombatInstance c) {
-    return new AttackAction(this, 
-            c.getEntities().stream().filter(p -> p != this).findFirst().get(),
-            c.getLocalTime() + 100);
+  public BaseCombatAction nextAction(CombatInstance c) {
+    Stream<Entity> potentialTargets;
+    Optional<Entity> target;
+
+    potentialTargets = c.getActiveEntities().filter(p -> p != this);
+    target = potentialTargets.findFirst();
+
+    if (target.isPresent()) {
+      return new AttackAction(this, 
+        target.get(),
+        c.getLocalTime(),
+        c.getLocalTime() + 100);
+    } else {
+      return new WaitAction(this, c.getLocalTime(), c.getLocalTime() + 100);
+    }
   }
 
   /**
@@ -98,11 +111,19 @@ public class Entity {
     return currentHealth;
   }
 
+  public void modifyCurrentHealth(float mod) {
+    this.setCurrentHealth(this.getCurrentHealth() + mod);
+  }
+  
   /**
    * @param currentHealth the currentHealth to set
    */
   public void setCurrentHealth(float currentHealth) {
     this.currentHealth = currentHealth;
+    
+    if (this.currentHealth < 0) {
+      this.setDead(true);
+    }
   }
 
   /**
@@ -119,4 +140,14 @@ public class Entity {
     this.maxHealth = maxHealth;
   }
 
+  public boolean isDead() {
+    return this.dead;
+  }
+
+  /**
+   * @param dead the dead to set
+   */
+  public void setDead(boolean dead) {
+    this.dead = dead;
+  }
 }

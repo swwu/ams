@@ -5,13 +5,13 @@
  */
 package com.ams.combat;
 
-import com.ams.combat.actions.AttackAction;
 import com.ams.character.Entity;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.stream.Stream;
 
 /**
  * Represents a specific combat event. Combat mechanics are only simulated
@@ -32,13 +32,13 @@ public class CombatInstance {
   List<Entity> entities;
   
   // plans made by characters in the instance
-  Map<Entity, ICombatAction> plans;
+  Map<Entity, BaseCombatAction> plans;
 
   // all actions that are currently "in-flight" inside this combat instance.
-  PriorityQueue<ICombatAction> actionOrdering;
+  PriorityQueue<BaseCombatAction> actionOrdering;
 
   // this comparator is used to sort CombatActions by their completion time
-  public static Comparator<ICombatAction> CombatActionTimeOrder = (ICombatAction o1, ICombatAction o2) -> {
+  public static Comparator<BaseCombatAction> CombatActionTimeOrder = (BaseCombatAction o1, BaseCombatAction o2) -> {
     double delta = o2.getCompletesAt() - o1.getCompletesAt();
     return (delta < 0) ? 1
             : (delta == 0) ? 0
@@ -56,26 +56,46 @@ public class CombatInstance {
     this.actionOrdering = new PriorityQueue<>(characters.size(), CombatActionTimeOrder);
   }
   
-  // runs the next CombatAction in the actionOrdering
+  // whether any action-generating entities remain in the combatinstance
+  public boolean isActive() {
+    return this.localTime < 10000 && this.getActiveEntities().count() > 0;
+  }
+  
+  // runs the next CombatAction in the actionOrdering, and advances time to
+  // the completion time of said action
   public void nextAction() {
     if (actionOrdering.size() > 0) {
-      ICombatAction nextAction = actionOrdering.remove();
+      BaseCombatAction nextAction = actionOrdering.remove();
       this.plans.remove(nextAction.getActor());
       this.setLocalTime(nextAction.getCompletesAt());
       nextAction.perform(this);
     }
+    this.checkEntityStatus();
     
-    for (Entity e : this.entities) {
-      if (!this.plans.containsKey(e)) {
-        ICombatAction nextAction = e.nextAction(this);
-        this.actionOrdering.add(nextAction);
-        this.plans.put(e, nextAction);
-      }
-    }
-    
+    this.doEntityPlanning();
+  }
+
+  public void doEntityPlanning() {
+    this.getActiveEntities()
+    .filter(e -> !this.plans.containsKey(e))
+    .forEach((e) -> {
+      BaseCombatAction nextAction = e.nextAction(this);
+      this.actionOrdering.add(nextAction);
+      this.plans.put(e, nextAction);
+    });
   }
   
-  public void nextPlanningTick() {
+  // check entities for state changes (i.e. death). This should be called every
+  // time changes happen to the involved entities
+  public void checkEntityStatus() {
+    this.getEntities()
+    .forEach((Entity e) -> {
+      // if the entity is dead, then clear existing plans
+      if (e.isDead()) {
+        this.actionOrdering.remove(this.plans.get(e));
+        this.plans.remove(e);
+      }
+    });
   }
 
   /**
@@ -83,6 +103,15 @@ public class CombatInstance {
    */
   public List<Entity> getEntities() {
     return entities;
+  }
+  
+  /**
+   * @return the characters that are still active in combat (i.e. not dead)
+   */
+  public Stream<Entity> getActiveEntities() {
+    return this.entities.stream().filter(e -> {
+      return !e.isDead();
+    });
   }
 
   /**
