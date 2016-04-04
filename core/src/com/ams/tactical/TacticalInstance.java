@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ams.combat;
+package com.ams.tactical;
 
 import com.ams.character.Entity;
 import java.util.Comparator;
@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  *
  * @author Steven
  */
-public class CombatInstance {
+public class TacticalInstance {
   // the current time that the combatinstance is at
   private double localTime;
   
@@ -32,20 +32,23 @@ public class CombatInstance {
   List<Entity> entities;
   
   // plans made by characters in the instance
-  Map<Entity, BaseCombatAction> plans;
+  Map<Entity, BaseTacticalAction> plans;
+  
+  
 
   // all actions that are currently "in-flight" inside this combat instance.
-  PriorityQueue<BaseCombatAction> actionOrdering;
+  PriorityQueue<BaseTacticalAction> actionOrdering;
 
   // this comparator is used to sort CombatActions by their completion time
-  public static Comparator<BaseCombatAction> CombatActionTimeOrder = (BaseCombatAction o1, BaseCombatAction o2) -> {
-    double delta = o2.getCompletesAt() - o1.getCompletesAt();
-    return (delta < 0) ? 1
-            : (delta == 0) ? 0
-            : -1;
-  };
+  public static Comparator<BaseTacticalAction> CombatActionTimeOrder
+          = (BaseTacticalAction o1, BaseTacticalAction o2) -> {
+            double delta = o2.getCompletesAt() - o1.getCompletesAt();
+            return (delta < 0) ? 1
+                    : (delta == 0) ? 0
+                            : -1;
+          };
 
-  public CombatInstance(List<Entity> characters) {
+  public TacticalInstance(List<Entity> characters) {
     this.localTime = 0.0;
     
     this.locationSize = 10.0f;
@@ -53,7 +56,8 @@ public class CombatInstance {
 
     this.entities = characters;
     this.plans = new HashMap<>();
-    this.actionOrdering = new PriorityQueue<>(characters.size(), CombatActionTimeOrder);
+    this.actionOrdering = new PriorityQueue<>(characters.size(),
+            CombatActionTimeOrder);
   }
   
   // whether any action-generating entities remain in the combatinstance
@@ -65,7 +69,7 @@ public class CombatInstance {
   // the completion time of said action
   public void nextAction() {
     if (actionOrdering.size() > 0) {
-      BaseCombatAction nextAction = actionOrdering.remove();
+      BaseTacticalAction nextAction = actionOrdering.remove();
       this.plans.remove(nextAction.getActor());
       this.setLocalTime(nextAction.getCompletesAt());
       nextAction.perform(this);
@@ -79,7 +83,7 @@ public class CombatInstance {
     this.getActiveEntities()
     .filter(e -> !this.plans.containsKey(e))
     .forEach((e) -> {
-      BaseCombatAction nextAction = e.nextAction(this);
+      BaseTacticalAction nextAction = e.nextAction(this);
       this.actionOrdering.add(nextAction);
       this.plans.put(e, nextAction);
     });

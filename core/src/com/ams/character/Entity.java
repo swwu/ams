@@ -5,10 +5,10 @@
  */
 package com.ams.character;
 
-import com.ams.combat.CombatInstance;
-import com.ams.combat.actions.AttackAction;
-import com.ams.combat.BaseCombatAction;
-import com.ams.combat.actions.WaitAction;
+import com.ams.tactical.TacticalInstance;
+import com.ams.tactical.actions.AttackAction;
+import com.ams.tactical.BaseTacticalAction;
+import com.ams.tactical.actions.WaitAction;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -35,7 +35,7 @@ public class Entity {
   public Entity(String name) {   
     this.name = name;
 
-    this.body = new Body();
+    this.body = new Body("bob","human");
     this.soul = new Soul();
 
     this.maxHealth = 100;
@@ -45,7 +45,7 @@ public class Entity {
   public void calculateStats() {
   }
 
-  public BaseCombatAction nextAction(CombatInstance c) {
+  public BaseTacticalAction nextAction(TacticalInstance c) {
     Stream<Entity> potentialTargets;
     Optional<Entity> target;
 

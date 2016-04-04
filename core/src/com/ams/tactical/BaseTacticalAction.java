@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ams.combat;
+package com.ams.tactical;
 
 import com.ams.character.Entity;
 
@@ -11,13 +11,13 @@ import com.ams.character.Entity;
  *
  * @author Steven
  */
-public abstract class BaseCombatAction {
+public abstract class BaseTacticalAction {
   
   double startsAt; // when the action was scheduled to start
   double completesAt; // when the action is scheduled to finish
   Entity actor;
 
-  public BaseCombatAction(Entity actor, double startsAt, double completesAt) {
+  public BaseTacticalAction(Entity actor, double startsAt, double completesAt) {
     this.actor = actor;
     this.startsAt = startsAt;
     this.completesAt = completesAt;
@@ -53,7 +53,5 @@ public abstract class BaseCombatAction {
     this.actor = actor;
   }
   
-  public void perform(CombatInstance c) {
-    
-  }
+  public abstract void perform(TacticalInstance c);
 }

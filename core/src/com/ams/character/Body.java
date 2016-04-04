@@ -14,34 +14,35 @@ import java.util.Set;
  * @author Steven
  */
 public class Body {
+
   private String name;
-  
+
   // the type of body this is. Currently only one type of body exists (human).
   private final BodyType bodyType;
-  
+
   // Physical attributes
   private float strStat;
   private float dexStat;
   private float conStat;
-  
-  Body(String name, String race){
-      //a name, which bodies often have
-      this.name = name;
-      //currently accepted are "human" "yaktaur" and "naga"
-      this.bodyType = new BodyType(race);
+
+  Body(String name, String race) {
+    //a name, which bodies often have
+    this.name = name;
+    //currently accepted are "human" "yaktaur" and "naga"
+    this.bodyType = new BodyType(race);
   }
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
 
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+  /**
+   * @param name the name to set
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
 }

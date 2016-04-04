@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ams.combat.actions;
+package com.ams.tactical.actions;
 
 import com.ams.character.Entity;
-import com.ams.combat.CombatInstance;
-import com.ams.combat.BaseCombatAction;
+import com.ams.tactical.TacticalInstance;
+import com.ams.tactical.BaseTacticalAction;
 
 /**
  *
  * @author Steven
  */
-public class AttackAction extends BaseCombatAction {
+public class AttackAction extends BaseTacticalAction {
 
   Entity target;
 
@@ -30,7 +30,7 @@ public class AttackAction extends BaseCombatAction {
   }
   
   @Override
-  public void perform(CombatInstance c) {
+  public void perform(TacticalInstance c) {
     System.out.println(this.getActor().getName() + ": target "
             + this.target.getName() + " has " + this.target.getCurrentHealth());
     this.target.modifyCurrentHealth(-10);

@@ -3,23 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ams.combat.actions;
+package com.ams.tactical.actions;
 
 import com.ams.character.Entity;
-import com.ams.combat.CombatInstance;
-import com.ams.combat.BaseCombatAction;
+import com.ams.tactical.TacticalInstance;
+import com.ams.tactical.BaseTacticalAction;
 
 /**
  *
  * @author swwu
  */
-public class WaitAction extends BaseCombatAction {
+public class WaitAction extends BaseTacticalAction {
   public WaitAction(Entity actor, double startsAt, double completesAt) {
     super(actor, startsAt, completesAt);
   }
   
   @Override
-  public void perform(CombatInstance c) {
+  public void perform(TacticalInstance c) {
     System.out.println(this.getActor().getName() + ": waiting");
   }
 
