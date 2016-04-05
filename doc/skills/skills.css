@@ -1,0 +1,42 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { margin:0; padding:0; }
+table { border-collapse:collapse; border-spacing:0; }
+fieldset,img { border:0; }
+address,caption,cite,code,dfn,em,strong,th,var { font-style:normal; font-weight:normal; }
+caption,th { text-align:left; }
+h1,h2,h3,h4,h5,h6 { font-size:100%; font-weight:normal; }
+q:before,q:after { content:''; }
+abbr,acronym { border:0; }
+
+body { background: #fff; }
+/* optional Container STYLES */
+/*.chart { height: 600px; margin: 5px; width: 900px; }
+.Treant > .node { padding: 3px; border: 1px solid #484848; border-radius: 3px; }*/
+/*.Treant > .node img { width: 100%; height: 100%; }*/
+/*.Treant > .node img { margin: 3px; }*/
+
+.Treant .collapse-switch { width: 100%; height: 100%; border: none; }
+.Treant .node { width: 105px; background-color: white; }
+.Treant .node.collapsed { background-color: #DEF82D; }
+.Treant .node.collapsed .collapse-switch { background: none; }
+
+.chart { height: 600px; width: 1500px; margin: 5px auto; border: 3px solid #DDD; border-radius: 3px;}
+.node { color: #333366; border: 2px solid #C8C8C8; border-radius: 3px; }
+.node p { font-size: 12px; padding: 3px; margin: 0; text-align: left; }
+.node .skill-name { font-size: 14px; font-weight: bold; padding: 0px; text-align: center; }
+.node .skill-xp { }
+.node .skill-ranks { float: right; }
+.node .affinity-bubble { display: inline-block; background: white; font-size: 8px; font-weight: bold; line-height: 11px; font-family: sans-serif; text-align: center; width: 10px; height: 10px; border: 1px solid black; border-radius: 6px; margin: 2px;}
+.node .affinity-bubble.affinity-on {  border: 1px solid gray; }
+.node .affinity-bubble.affinity-on:nth-child(1) { background: #89CFF0; }
+.node .affinity-bubble.affinity-on:nth-child(2) { background: #FF5B7E; }
+.node .affinity-bubble.affinity-on:nth-child(3) { background: #FFC0DB; }
+.node .affinity-bubble.affinity-on:nth-child(4) { background: #F020F0; }
+.node .affinity-bubble.affinity-on:nth-child(5) { background: #80C0FF; }
+.node .affinity-bubble.affinity-on:nth-child(6) { background: #40CF80; }
+.node .affinity-square { display: inline-block; background: white; font-size: 9px; font-weight: bold; line-height: 14px; font-family: sans-serif; text-align: center; width: 16px; height: 12px; border: 1px solid black; border-radius: 5px; margin: 2px;}
+.node .affinity-square.affinity-on {  border: 1px solid gray; }
+.node .affinity-square.affinity-on:nth-child(1) { background: #FF4444; }
+.node .affinity-square.affinity-on:nth-child(2) { background: #66C9FF; }
+.node .affinity-square.affinity-on:nth-child(3) { background: #FFAF00; }
+.node .bubble-row { text-align: center; margin: 0px; padding: 0px; }
+.root p { font-size: 16px; font-weight: bold; text-align: center; }

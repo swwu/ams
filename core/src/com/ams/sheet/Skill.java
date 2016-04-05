@@ -17,24 +17,24 @@ public class Skill {
     public static void initSkills() {
         skills = new ArrayList<>();
         
-        Skill sFighter = new Skill("fighter", null);
+        Skill sFighter = new Skill("Fighter", null);
         sFighter.addAffHP()
                 .addAffSave(CharacterSheetConstants.I_STR)
                 .addAffSave(CharacterSheetConstants.I_DEX)
                 .addAffSave(CharacterSheetConstants.I_CON);
-        Skill sSpecialist = new Skill("specialist", null);
+        Skill sSpecialist = new Skill("Specialist", null);
         sSpecialist.addAffReflexRate()
                 .addAffAllSaves();
-        Skill sCaster = new Skill("caster", null);
+        Skill sCaster = new Skill("Caster", null);
         sCaster.addAffMP()
                 .addAffSave(CharacterSheetConstants.I_INT)
                 .addAffSave(CharacterSheetConstants.I_WIS)
                 .addAffSave(CharacterSheetConstants.I_CHA);
-        Skill sMelee = new Skill("melee", sFighter);
-        sFighter.addAffHP().addAffReflexRate()
+        Skill sMelee = new Skill("Melee", sFighter);
+        sMelee.addAffHP().addAffReflexRate()
                 .addAffSave(CharacterSheetConstants.I_STR)
                 .addAffSave(CharacterSheetConstants.I_CON);
-        Skill sRanged = new Skill("ranged", sFighter);
+        Skill sRanged = new Skill("Ranged", sFighter);
         sRanged.addAffHP().addAffReflexRate()
                 .addAffSave(CharacterSheetConstants.I_DEX)
                 .addAffSave(CharacterSheetConstants.I_CON);
@@ -130,5 +130,47 @@ public class Skill {
      */
     public double getAffSave(int id) {
         return affSaves[id];
+    }
+    
+    public static void main(String [] args) {
+        // initialize the skills
+        initSkills();
+                
+        // prints out a diagram of the skill tree
+        System.out.println("");
+        System.out.println("root = {");
+        System.out.println("  HTMLclass: \"root\",");
+        System.out.println("  innerHTML: \"<p>Root</p>\"");
+        System.out.println("}");
+        System.out.println("");
+        
+        for (Skill s: skills) {
+            System.out.println("skill" + Integer.toString(s.getId()) + " = {");
+            if(s.hasParent()) {
+                System.out.println("  parent: skill" + Integer.toString(s.getParent().getId()) + ",");
+            }
+            else {
+                System.out.println("  parent: root,");
+            }
+            System.out.print("    innerHTML: skillInfo(\"" + s.name + "\", ");
+            System.out.print((s.getAffHP() > 0) ? "true, " : "false, ");
+            System.out.print((s.getAffMP() > 0) ? "true, " : "false, ");
+            System.out.print((s.getAffReflexRate() > 0) ? "true, " : "false, ");
+            System.out.print((s.getAffSave(0) > 0) ? "true, " : "false, ");
+            System.out.print((s.getAffSave(1) > 0) ? "true, " : "false, ");
+            System.out.print((s.getAffSave(2) > 0) ? "true, " : "false, ");
+            System.out.print((s.getAffSave(3) > 0) ? "true, " : "false, ");
+            System.out.print((s.getAffSave(4) > 0) ? "true, " : "false, ");
+            System.out.println((s.getAffSave(5) > 0) ? "true)" : "false)");
+            System.out.println("}");
+            System.out.println("");
+        }
+        
+        System.out.print("chart_config = [config, root, ");
+        for (Skill s: skills) {
+            System.out.print("skill" + Integer.toString(s.getId()) + ", ");
+        }
+        System.out.println("]");
+        System.out.println("");
     }
 }
