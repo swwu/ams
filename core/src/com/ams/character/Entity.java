@@ -35,7 +35,7 @@ public class Entity {
   public Entity(String name) {   
     this.name = name;
 
-    this.body = new Body("bob","human");
+    this.body = new Body("bob's body","human");
     this.soul = new Soul();
 
     this.maxHealth = 100;

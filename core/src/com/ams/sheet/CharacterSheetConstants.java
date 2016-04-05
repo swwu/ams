@@ -10,6 +10,7 @@ package com.ams.sheet;
  * @author cdesa
  */
 public class CharacterSheetConstants {
+    // could we use an enumerated type here so that we don't enter 7 it's fubar
     public final static int I_STR = 0;
     public final static int I_DEX = 1;
     public final static int I_CON = 2;
