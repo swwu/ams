@@ -25,4 +25,24 @@ public class CharacterSheetConstants {
     public final static double K_SAVE = 1.0;
     
     public final static double K_SKILL = 10.0;
+    
+    public static String shortAbilityName(int ability) {
+        switch(ability) {
+            case I_STR:
+                return "Str";
+            case I_DEX:
+                return "Dex";
+            case I_CON:
+                return "Con";
+            case I_INT:
+                return "Int";
+            case I_WIS:
+                return "Wis";
+            case I_CHA:
+                return "Cha";
+            default:
+                assert(false);
+        }
+        return "";
+    }
 }

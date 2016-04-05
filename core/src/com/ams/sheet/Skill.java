@@ -17,27 +17,70 @@ public class Skill {
     public static void initSkills() {
         skills = new ArrayList<>();
         
-        Skill sFighter = new Skill("Fighter", null);
+        Skill sFighter = new Skill("Fight", null, CharacterSheetConstants.I_STR);
         sFighter.addAffHP()
                 .addAffSave(CharacterSheetConstants.I_STR)
                 .addAffSave(CharacterSheetConstants.I_DEX)
                 .addAffSave(CharacterSheetConstants.I_CON);
-        Skill sSpecialist = new Skill("Specialist", null);
+        Skill sSpecialist = new Skill("Specialist", null, CharacterSheetConstants.I_DEX);
         sSpecialist.addAffReflexRate()
                 .addAffAllSaves();
-        Skill sCaster = new Skill("Caster", null);
+        Skill sCaster = new Skill("Cast", null, CharacterSheetConstants.I_INT);
         sCaster.addAffMP()
                 .addAffSave(CharacterSheetConstants.I_INT)
                 .addAffSave(CharacterSheetConstants.I_WIS)
                 .addAffSave(CharacterSheetConstants.I_CHA);
-        Skill sMelee = new Skill("Melee", sFighter);
+        Skill sMelee = new Skill("Melee", sFighter, CharacterSheetConstants.I_STR);
         sMelee.addAffHP().addAffReflexRate()
                 .addAffSave(CharacterSheetConstants.I_STR)
                 .addAffSave(CharacterSheetConstants.I_CON);
-        Skill sRanged = new Skill("Ranged", sFighter);
+        Skill sRanged = new Skill("Ranged", sFighter, CharacterSheetConstants.I_DEX);
         sRanged.addAffHP().addAffReflexRate()
                 .addAffSave(CharacterSheetConstants.I_DEX)
                 .addAffSave(CharacterSheetConstants.I_CON);
+        
+        Skill sKnowledge = new Skill("Knowledge", null, CharacterSheetConstants.I_INT);
+        sKnowledge.addAffMP().addAffReflexRate()
+                .addAffSave(CharacterSheetConstants.I_INT)
+                .addAffSave(CharacterSheetConstants.I_WIS);
+        Skill sArcana = new Skill("Arcana", sKnowledge, CharacterSheetConstants.I_INT);
+        sArcana.addAffMP()
+                .addAffSave(CharacterSheetConstants.I_INT)
+                .addAffSave(CharacterSheetConstants.I_WIS)
+                .addAffSave(CharacterSheetConstants.I_CHA);
+        Skill sReligion = new Skill("Religion", sKnowledge, CharacterSheetConstants.I_INT);
+        sReligion.addAffMP()
+                .addAffSave(CharacterSheetConstants.I_INT)
+                .addAffSave(CharacterSheetConstants.I_WIS)
+                .addAffSave(CharacterSheetConstants.I_CHA);
+        Skill sNature = new Skill("Nature", sKnowledge, CharacterSheetConstants.I_INT);
+        sNature.addAffReflexRate()
+                .addAffSave(CharacterSheetConstants.I_INT)
+                .addAffSave(CharacterSheetConstants.I_WIS)
+                .addAffSave(CharacterSheetConstants.I_CON);
+        Skill sEngineering = new Skill("Engineering", sKnowledge, CharacterSheetConstants.I_INT);
+        sEngineering.addAffReflexRate()
+                .addAffSave(CharacterSheetConstants.I_INT)
+                .addAffSave(CharacterSheetConstants.I_WIS)
+                .addAffSave(CharacterSheetConstants.I_DEX);
+        Skill sNobility = new Skill("Nobility", sKnowledge, CharacterSheetConstants.I_INT);
+        sNobility.addAffHP()
+                .addAffSave(CharacterSheetConstants.I_INT)
+                .addAffSave(CharacterSheetConstants.I_WIS)
+                .addAffSave(CharacterSheetConstants.I_CHA);
+        Skill sLocal = new Skill("Local", sKnowledge, CharacterSheetConstants.I_INT);
+        sLocal.addAffHP()
+                .addAffSave(CharacterSheetConstants.I_INT)
+                .addAffSave(CharacterSheetConstants.I_WIS)
+                .addAffSave(CharacterSheetConstants.I_CHA);
+        Skill sSpellcraft = new Skill("Spellcraft", sCaster, CharacterSheetConstants.I_INT);
+        sSpellcraft.addAffMP()
+                .addAffSave(CharacterSheetConstants.I_INT)
+                .addAffSave(CharacterSheetConstants.I_CHA);
+        Skill sCounterspell = new Skill("Counterspell", sSpellcraft, CharacterSheetConstants.I_CHA);
+        sCounterspell.addAffMP().addAffReflexRate()
+                .addAffSave(CharacterSheetConstants.I_WIS)
+                .addAffSave(CharacterSheetConstants.I_CHA);
     }
     
     public static Skill getSkill(int id) {
@@ -49,6 +92,7 @@ public class Skill {
     }
     
     private int id;
+    private int keyAbility;
     private String name;
     private Skill parent;
     
@@ -57,9 +101,10 @@ public class Skill {
     private double affReflexRate;
     private double[] affSaves;
     
-    public Skill(String name, Skill parent) {
+    public Skill(String name, Skill parent, int keyAbility) {
         this.name = name;
         this.parent = parent;
+        this.keyAbility = keyAbility;
         affHP = 0;
         affMP = 0;
         affReflexRate = 0;
@@ -152,7 +197,7 @@ public class Skill {
             else {
                 System.out.println("  parent: root,");
             }
-            System.out.print("    innerHTML: skillInfo(\"" + s.name + "\", ");
+            System.out.print("    innerHTML: skillInfo(\"" + s.name + " (" + CharacterSheetConstants.shortAbilityName(s.keyAbility) + ")\", ");
             System.out.print((s.getAffHP() > 0) ? "true, " : "false, ");
             System.out.print((s.getAffMP() > 0) ? "true, " : "false, ");
             System.out.print((s.getAffReflexRate() > 0) ? "true, " : "false, ");
