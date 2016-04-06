@@ -22,15 +22,15 @@ public class CharacterSheet {
     // non-derived values
     boolean[] unlockedSkills;
     double[] investedXP;
-    double[] abilityScores;
+    HashMap<Ability, Double> abilityScores;
     List<Trait> traits;
     
     // derived values
-    double[] abilityModifiers;
+    HashMap<Ability, Double> abilityModifiers;
     double maxHP;
     double maxMP;
     double reflexRate;
-    double[] saves;
+    HashMap<Ability, Double> saves;
     double[] skillRanks;
     
     CharacterSheet(String name, String description) {
@@ -39,18 +39,18 @@ public class CharacterSheet {
         
         unlockedSkills = new boolean[Skill.numSkills()];
         investedXP = new double[Skill.numSkills()];
-        abilityScores = new double[CharacterSheetConstants.NUM_ABILITY_SCORES];
+        abilityScores = new HashMap<>();
         traits = new ArrayList<>();
         
-        abilityModifiers = new double[CharacterSheetConstants.NUM_ABILITY_SCORES];
-        saves = new double[CharacterSheetConstants.NUM_ABILITY_SCORES];
+        abilityModifiers = new HashMap<>();
+        saves = new HashMap<>();
         skillRanks = new double[Skill.numSkills()];
     }
 
     private void recomputeDerivedValues() {
         // first, compute ability modifiers
-        for (int ia = 0; ia < CharacterSheetConstants.NUM_ABILITY_SCORES; ia++) {
-            abilityModifiers[ia] = (abilityScores[ia] - 10.0) / 2.0;
+        for (Ability a: Ability.Abilities) {
+            abilityModifiers.put(a, (abilityScores.get(a) - 10.0) / 2.0);
         }
         
         // second, compute total XP and affinity-weighted XP
@@ -58,39 +58,39 @@ public class CharacterSheet {
         double xpAffHP = 0.0;
         double xpAffMP = 0.0;
         double xpAffReflexRate = 0.0;
-        double[] xpAffSaves = new double[CharacterSheetConstants.NUM_ABILITY_SCORES];
+        HashMap<Ability, Double> xpAffSaves = new HashMap<>();
         for (int skillid = 0; skillid < Skill.numSkills(); skillid++) {
             totalXP += investedXP[skillid];
             xpAffHP += investedXP[skillid] * Skill.getSkill(skillid).getAffHP();
             xpAffMP += investedXP[skillid] * Skill.getSkill(skillid).getAffMP();
             xpAffReflexRate += investedXP[skillid] * Skill.getSkill(skillid).getAffReflexRate();
-            for (int ia = 0; ia < CharacterSheetConstants.NUM_ABILITY_SCORES; ia++) {
-                xpAffSaves[ia] += investedXP[skillid] * Skill.getSkill(skillid).getAffSave(ia);
+            for (Ability a: Ability.Abilities) {
+                xpAffSaves.put(a, xpAffSaves.getOrDefault(a, 0.0) + investedXP[skillid] * Skill.getSkill(skillid).getAffSave(a));
             }
         }
         
         assert(totalXP > 0.0);
         
         // and compute affinity-based values
-        maxHP = CharacterSheetConstants.K_HP
-                * abilityScores[CharacterSheetConstants.I_CON]
+        maxHP = ProgressionConstants.K_HP
+                * abilityScores.get(Ability.Con)
                 * (1.0 + xpAffHP / totalXP)
                 * Math.sqrt(totalXP);
         
-        maxMP = CharacterSheetConstants.K_MP
-                * abilityScores[CharacterSheetConstants.I_WIS]
+        maxMP = ProgressionConstants.K_MP
+                * abilityScores.get(Ability.Wis)
                 * (1.0 + xpAffMP / totalXP)
                 * Math.sqrt(totalXP);
         
-        reflexRate = CharacterSheetConstants.K_REFLEXRATE
-                * abilityScores[CharacterSheetConstants.I_DEX]
+        reflexRate = ProgressionConstants.K_REFLEXRATE
+                * abilityScores.get(Ability.Dex)
                 * (1.0 + xpAffReflexRate / totalXP);
         
-        for (int ia = 0; ia < CharacterSheetConstants.NUM_ABILITY_SCORES; ia++) {
-            saves[ia] = CharacterSheetConstants.K_SAVE
-                    * (1.0 + xpAffSaves[ia] / totalXP)
+        for (Ability a: Ability.Abilities) {
+            saves.put(a, ProgressionConstants.K_SAVE
+                    * (1.0 + xpAffSaves.get(a) / totalXP)
                     * Math.sqrt(totalXP)
-                    + abilityModifiers[ia];
+                    + abilityModifiers.get(a));
         }
         
         // third, compute skill ranks
@@ -109,7 +109,7 @@ public class CharacterSheet {
                 double baseRanks = Math.max(parentRanks - 3.0, 0.0);
                 
                 skillRanks[skillid] = Math.sqrt(
-                        myXP / CharacterSheetConstants.K_SKILL
+                        myXP / ProgressionConstants.K_SKILL
                         + baseRanks * (baseRanks + 1)
                         + 0.25) - 0.5;
             }

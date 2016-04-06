@@ -19,7 +19,7 @@ body { background: #fff; }
 .Treant .node.collapsed { background-color: #DEF82D; }
 .Treant .node.collapsed .collapse-switch { background: none; }
 
-.chart { height: 600px; width: 2000px; margin: 5px auto; border: 3px solid #DDD; border-radius: 3px;}
+.chart { position: fixed; margin: 10px; border: 3px solid #DDD; border-radius: 3px; top: 0px; left: 0px; bottom: 0px; right: 0px;}
 .node { color: #333366; border: 2px solid #C8C8C8; border-radius: 3px; }
 .node p { font-size: 12px; padding: 3px; margin: 0; text-align: left; }
 .node .skill-name { font-size: 14px; font-weight: bold; padding: 0px; text-align: center; }
