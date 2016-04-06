@@ -20,7 +20,7 @@ body { background: #fff; }
 .Treant .node.collapsed .collapse-switch { background: none; }
 
 .chart { position: fixed; margin: 10px; border: 3px solid #DDD; border-radius: 3px; top: 0px; left: 0px; bottom: 0px; right: 0px;}
-.node { color: #333366; border: 2px solid #C8C8C8; border-radius: 3px; }
+.node { color: black; border: 2px solid #C8C8C8; border-radius: 3px; }
 .node p { font-size: 12px; padding: 3px; margin: 0; text-align: left; }
 .node .skill-name { font-size: 14px; font-weight: bold; padding: 0px; text-align: center; }
 .node .skill-xp { }
@@ -40,3 +40,11 @@ body { background: #fff; }
 .node .affinity-square.affinity-on:nth-child(3) { background: #FFAF00; }
 .node .bubble-row { text-align: center; margin: 0px; padding: 0px; }
 .root p { font-size: 16px; font-weight: bold; text-align: center; }
+
+.key-ability { font-size: 12px; }
+.kaStr { color: #69AFD0; }
+.kaDex { color: #CC5B7E; }
+.kaCon { color: #CCC0DB; }
+.kaInt { color: #C020C0; }
+.kaWis { color: #80A0CC; }
+.kaCha { color: #40CF80; }

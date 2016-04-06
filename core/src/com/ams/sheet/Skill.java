@@ -97,6 +97,23 @@ public class Skill {
                 .addAffSave(Ability.Cha);
         Skill sBluff = new Skill("Bluff", sSociety, Ability.Cha);
         sBluff.inheritParentAffinities();
+        
+        Skill sAthletics = new Skill("Athletics", sFighter, Ability.Str);
+        sAthletics.addAffHP().addAffReflexRate()
+                .addAffSave(Ability.Str)
+                .addAffSave(Ability.Dex)
+                .addAffSave(Ability.Con);
+        
+        Skill sAcrobatics = new Skill("Acrobatics", sAthletics, Ability.Dex);
+        sAcrobatics.inheritParentAffinities();
+        Skill sClimb = new Skill("Climb", sAthletics, Ability.Str);
+        sClimb.inheritParentAffinities();
+        Skill sSwim = new Skill("Swim", sAthletics, Ability.Str);
+        sSwim.inheritParentAffinities();
+        Skill sFly = new Skill("Fly", sAthletics, Ability.Dex);
+        sFly.addAffHP().addAffReflexRate().addAffMP()
+                .addAffSave(Ability.Dex)
+                .addAffSave(Ability.Cha);
     }
     
     public static Skill getSkill(int id) {
@@ -226,7 +243,7 @@ public class Skill {
             else {
                 System.out.println("  parent: root,");
             }
-            System.out.print("  innerHTML: skillInfo(\"" + s.name + " (" + s.keyAbility.name + ")\", ");
+            System.out.print("  innerHTML: skillInfo(\"" + s.name + "\", \"" + s.keyAbility.name + "\", ");
             System.out.print((s.getAffHP() > 0) ? "true, " : "false, ");
             System.out.print((s.getAffMP() > 0) ? "true, " : "false, ");
             System.out.print((s.getAffReflexRate() > 0) ? "true, " : "false, ");

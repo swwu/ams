@@ -15,7 +15,7 @@ var config = {
     }
 }
 
-function skillInfo(name, aff_HP, aff_MP, aff_RX, aff_STR, aff_DEX, aff_CON, aff_INT, aff_WIS, aff_CHA) {
+function skillInfo(name, ka, aff_HP, aff_MP, aff_RX, aff_STR, aff_DEX, aff_CON, aff_INT, aff_WIS, aff_CHA) {
   // if (xp == null) {
   //   xpstr = "Locked"
   // }
@@ -37,6 +37,7 @@ function skillInfo(name, aff_HP, aff_MP, aff_RX, aff_STR, aff_DEX, aff_CON, aff_
 
   return "<p class=\"skill-name\">"
     + name
+    + " <span class=\"key-ability ka" + ka + "\">" + ka + "</span>"
     //+ "</p><p><span class=\"skill-xp\">" + xpstr + "</span><span class=\"skill-ranks\">Ranks: " + ranks + "</span></p>"
     + "<p class=\"bubble-row\">"
     + affinityHelper("bubble", "S", aff_STR)
