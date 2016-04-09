@@ -1,10 +1,18 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    }
-    dependencies {
-    }
+
+apply plugin: 'groovy'
+
+
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    compile gradleApi()
+    testCompile 'junit:junit:4.12'
+}
+buildscript{
+    
 }
 
 allprojects {
@@ -45,6 +53,11 @@ project(":desktop") {
 project(":core") {
     apply plugin: "java"
 
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    }
+
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -52,6 +65,8 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        compile gradleApi()
+        testCompile 'junit:junit:4.12'
     }
 }
 

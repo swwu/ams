@@ -17,7 +17,8 @@ public class Body {
 
   private String name;
 
-  // the type of body this is. Currently only one type of body exists (human).
+  // the type of body this is. Currently only three type of body exists 
+  //(human, yaktaur, naga).
   private final BodyType bodyType;
 
   // Physical attributes
