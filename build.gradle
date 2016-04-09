@@ -2,23 +2,15 @@
 apply plugin: 'groovy'
 
 
-repositories {
-    mavenCentral()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-}
-
-dependencies {
-    compile gradleApi()
-    testCompile 'junit:junit:4.12'
-}
-buildscript{
-    
-}
 
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
+    apply plugin: 'groovy'
+    apply plugin: 'java'
 
+
+    
     version = '1.0'
     ext {
         appName = "apm"
@@ -34,6 +26,14 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
+
+    dependencies {
+        compile 'org.apache.commons:commons-lang3:3.3.2'
+        compile group: 'commons-collections', name: 'commons-collections', version: '3.+'
+        testCompile 'junit:junit:4.12'
+    }
+
+    
 }
 
 project(":desktop") {
@@ -67,6 +67,7 @@ project(":core") {
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
         compile gradleApi()
         testCompile 'junit:junit:4.12'
+        compile 'junit:junit:4.12'
     }
 }
 
