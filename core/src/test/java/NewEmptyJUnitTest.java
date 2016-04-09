@@ -11,6 +11,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import com.ams.character.Body;
+import com.ams.character.BodyType;
+
 
 /**
  *
@@ -38,8 +41,19 @@ public class NewEmptyJUnitTest {
     }
     
     @Test
-    public void failure(){
-        assert(true);
+    public void basicbodytest(){
+        Body testbody =  new Body("Joe's Body", "human");
+        assert(testbody.getName().equals("Joe's Body"));
+        testbody.setName("Alan");
+        assert(testbody.getName().equals("Alan"));
+    }
+    
+    @Test
+    public void basicbodyparttest(){
+        Body testbody =  new Body("Joe's Body", "human");
+        assert(testbody.getName().equals("Joe's Body"));
+        testbody.setName("Alan");
+        assert(testbody.getName().equals("Alan"));
     }
     
     @Test

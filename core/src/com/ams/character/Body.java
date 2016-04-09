@@ -26,7 +26,7 @@ public class Body {
   private float dexStat;
   private float conStat;
 
-  Body(String name, String race) {
+  public Body(String name, String race) {
     //a name, which bodies often have
     this.name = name;
     //currently accepted are "human" "yaktaur" and "naga"
@@ -46,4 +46,11 @@ public class Body {
   public void setName(String name) {
     this.name = name;
   }
+
+    /**
+     * @return the bodyType
+     */
+    public BodyType getBodyType() {
+        return bodyType;
+    }
 }

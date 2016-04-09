@@ -15,13 +15,13 @@ import java.util.Set;
  */
 public class BodyType {
   //defined values
-  List<BodyPart> bodyParts;
+  private List<BodyPart> bodyParts;
 
   //calculated values
-  Set<BodyPart> grasperParts;
-  Set<BodyPart> stanceParts;
-  Set<BodyPart> vitalsParts;
-  Set<BodyPart> soulParts;
+  private Set<BodyPart> grasperParts;
+  private Set<BodyPart> stanceParts;
+  private Set<BodyPart> vitalsParts;
+  private Set<BodyPart> soulParts;
   
   BodyType(String race){
       this.bodyParts = new ArrayList<>();
@@ -61,27 +61,62 @@ public class BodyType {
   
   private void recomputeBodyPartTypes() {
     //first, clear our sets of BodyPartTypes
-    grasperParts.clear();
-    stanceParts.clear();
-    vitalsParts.clear();
-    soulParts.clear();
+        getGrasperParts().clear();
+        getStanceParts().clear();
+        getVitalsParts().clear();
+        getSoulParts().clear();
     
     //add approprate parts to sets
-    for (BodyPart bpart : bodyParts){
+    for (BodyPart bpart : getBodyParts()){
         if (bpart.isHasGrasper()){
-            grasperParts.add(bpart);
+                getGrasperParts().add(bpart);
         }
         if (bpart.isHasStance()){
-            stanceParts.add(bpart);
+                getStanceParts().add(bpart);
         }
         if (bpart.isHasVitals()){
-            vitalsParts.add(bpart);
+                getVitalsParts().add(bpart);
         }
         if (bpart.isHasGrasper()){
-            soulParts.add(bpart);
+                getSoulParts().add(bpart);
         }
     }
 }
+
+    /**
+     * @return the bodyParts
+     */
+    public List<BodyPart> getBodyParts() {
+        return bodyParts;
+    }
+
+    /**
+     * @return the grasperParts
+     */
+    public Set<BodyPart> getGrasperParts() {
+        return grasperParts;
+    }
+
+    /**
+     * @return the stanceParts
+     */
+    public Set<BodyPart> getStanceParts() {
+        return stanceParts;
+    }
+
+    /**
+     * @return the vitalsParts
+     */
+    public Set<BodyPart> getVitalsParts() {
+        return vitalsParts;
+    }
+
+    /**
+     * @return the soulParts
+     */
+    public Set<BodyPart> getSoulParts() {
+        return soulParts;
+    }
   
   
 }
